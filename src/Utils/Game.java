@@ -1,5 +1,6 @@
 package Utils;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -14,24 +15,26 @@ public class Game {
 
   public void begins() {
     Scanner scan = new Scanner(System.in);
+    ArrayList<Player> players = new ArrayList<Player>();
     Menu.initial(scan);
     Menu.clearScreen();
     if (end == true) {
       System.out.println("Obrigado por jogar. :)");
       return;
     }
-    Player one = new Player(scan);
+    players.add(new Player(scan));
     Menu.clearScreen();
-    Player two = new Player(scan, one.getIsX());
+    players.add(new Player(scan, players.get(0).getIsX()));
     Menu.clearScreen();
-    whoStarts(one, two);
+    whoStarts(players);
     while (end != true) {
-      if (one.getStart()) {
-        oneBegins(scan, one, two);
+      if (players.get(0).getStart()) {
+        oneBegins(scan, players);
       } else {
-        twoBegins(scan, one, two);
+        twoBegins(scan, players);
       }
     }
+    begins();
     scan.close();
   }
 
@@ -47,13 +50,13 @@ public class Game {
     Game.end = end;
   }
 
-  public void whoStarts(Player one, Player two) {
+  public void whoStarts(ArrayList<Player> players) {
     Random generator = new Random();
     Boolean start = generator.nextBoolean();
     if (start) {
-      one.setStarter();
+      players.get(0).setStarter();
     } else {
-      two.setStarter();
+      players.get(1).setStarter();
     }
   }
 
@@ -87,7 +90,7 @@ public class Game {
     return true;
   }
 
-  public void verifier(Player one, Player two, Scanner scan) {
+  public void verifier(ArrayList<Player> players, Scanner scan) {
     int winnerIsX = 0;
     int winnerIsO = 0;
     // Lines
@@ -102,15 +105,15 @@ public class Game {
           Boolean xMadeALine = winnerIsX == 3;
 
           if (xMadeALine) {
-            if (one.getIsX()) {
-              System.out.println(one.getName() + " Ganhou!!");
+            if (players.get(0).getIsX()) {
+              System.out.println(players.get(0).getName() + " Ganhou!!");
               Menu.pressEnterToContinue(scan);
-              one.setWins();
+              players.get(0).setWins();
               board.initializer();
               return;
-            } else if (two.getIsX()) {
-              System.out.println(two.getName() + " Ganhou!!");
-              two.setWins();
+            } else if (players.get(1).getIsX()) {
+              System.out.println(players.get(1).getName() + " Ganhou!!");
+              players.get(1).setWins();
               Menu.pressEnterToContinue(scan);
               board.initializer();
               return;
@@ -122,15 +125,15 @@ public class Game {
           Boolean oMadeALine = winnerIsO == 3;
 
           if (oMadeALine) {
-            if (!one.getIsX()) {
-              System.out.println(one.getName() + " Ganhou!!");
-              one.setWins();
+            if (!players.get(0).getIsX()) {
+              System.out.println(players.get(0).getName() + " Ganhou!!");
+              players.get(0).setWins();
               Menu.pressEnterToContinue(scan);
               board.initializer();
               return;
-            } else if (!two.getIsX()) {
-              System.out.println(two.getName() + " Ganhou!!");
-              two.setWins();
+            } else if (!players.get(1).getIsX()) {
+              System.out.println(players.get(1).getName() + " Ganhou!!");
+              players.get(1).setWins();
               Menu.pressEnterToContinue(scan);
               board.initializer();
               return;
@@ -153,15 +156,15 @@ public class Game {
           Boolean xMadeAColumn = winnerIsX == 3;
 
           if (xMadeAColumn) {
-            if (one.getIsX()) {
-              System.out.println(one.getName() + " Ganhou!!");
+            if (players.get(0).getIsX()) {
+              System.out.println(players.get(0).getName() + " Ganhou!!");
               Menu.pressEnterToContinue(scan);
-              one.setWins();
+              players.get(0).setWins();
               board.initializer();
               return;
-            } else if (two.getIsX()) {
-              System.out.println(two.getName() + " Ganhou!!");
-              two.setWins();
+            } else if (players.get(1).getIsX()) {
+              System.out.println(players.get(1).getName() + " Ganhou!!");
+              players.get(1).setWins();
               Menu.pressEnterToContinue(scan);
               board.initializer();
               return;
@@ -173,15 +176,15 @@ public class Game {
           Boolean oMadeAColumn = winnerIsO == 3;
 
           if (oMadeAColumn) {
-            if (!one.getIsX()) {
-              System.out.println(one.getName() + " Ganhou!!");
+            if (!players.get(0).getIsX()) {
+              System.out.println(players.get(0).getName() + " Ganhou!!");
               Menu.pressEnterToContinue(scan);
-              one.setWins();
+              players.get(0).setWins();
               board.initializer();
               return;
-            } else if (!two.getIsX()) {
-              System.out.println(two.getName() + " Ganhou!!");
-              two.setWins();
+            } else if (!players.get(1).getIsX()) {
+              System.out.println(players.get(1).getName() + " Ganhou!!");
+              players.get(1).setWins();
               Menu.pressEnterToContinue(scan);
               board.initializer();
               return;
@@ -192,8 +195,6 @@ public class Game {
       winnerIsX = 0;
       winnerIsO = 0;
     }
-    // winnerIsX = 0;
-    // winnerIsO = 0;
     // Primary Diagonal
     for (int i = 0, j = i; i < 3; i++, j++) {
       Boolean positionEqualToX = board.getTable()[i][j].equals("X");
@@ -205,15 +206,15 @@ public class Game {
         Boolean xMadeAPrimaryDiagonal = winnerIsX == 3;
 
         if (xMadeAPrimaryDiagonal) {
-          if (one.getIsX()) {
-            System.out.println(one.getName() + " Ganhou!!");
+          if (players.get(0).getIsX()) {
+            System.out.println(players.get(0).getName() + " Ganhou!!");
             Menu.pressEnterToContinue(scan);
-            one.setWins();
+            players.get(0).setWins();
             board.initializer();
             return;
-          } else if (two.getIsX()) {
-            System.out.println(two.getName() + " Ganhou!!");
-            two.setWins();
+          } else if (players.get(1).getIsX()) {
+            System.out.println(players.get(1).getName() + " Ganhou!!");
+            players.get(1).setWins();
             Menu.pressEnterToContinue(scan);
             board.initializer();
             return;
@@ -225,15 +226,15 @@ public class Game {
         Boolean oMadeAPrimaryDiagonal = winnerIsO == 3;
 
         if (oMadeAPrimaryDiagonal) {
-          if (!one.getIsX()) {
-            System.out.println(one.getName() + " Ganhou!!");
+          if (!players.get(0).getIsX()) {
+            System.out.println(players.get(0).getName() + " Ganhou!!");
             Menu.pressEnterToContinue(scan);
-            one.setWins();
+            players.get(0).setWins();
             board.initializer();
             return;
-          } else if (!two.getIsX()) {
-            System.out.println(two.getName() + " Ganhou!!");
-            two.setWins();
+          } else if (!players.get(1).getIsX()) {
+            System.out.println(players.get(1).getName() + " Ganhou!!");
+            players.get(1).setWins();
             Menu.pressEnterToContinue(scan);
             board.initializer();
             return;
@@ -254,15 +255,15 @@ public class Game {
         Boolean xMadeASecondaryDiagonal = winnerIsX == 3;
 
         if (xMadeASecondaryDiagonal) {
-          if (one.getIsX()) {
-            System.out.println(one.getName() + " Ganhou!!");
+          if (players.get(0).getIsX()) {
+            System.out.println(players.get(0).getName() + " Ganhou!!");
             Menu.pressEnterToContinue(scan);
-            one.setWins();
+            players.get(0).setWins();
             board.initializer();
             return;
-          } else if (two.getIsX()) {
-            System.out.println(two.getName() + " Ganhou!!");
-            two.setWins();
+          } else if (players.get(1).getIsX()) {
+            System.out.println(players.get(1).getName() + " Ganhou!!");
+            players.get(1).setWins();
             Menu.pressEnterToContinue(scan);
             board.initializer();
             return;
@@ -274,15 +275,15 @@ public class Game {
         Boolean oMadeASecondaryDiagonal = winnerIsO == 3;
 
         if (oMadeASecondaryDiagonal) {
-          if (!one.getIsX()) {
-            System.out.println(one.getName() + " Ganhou!!");
+          if (!players.get(0).getIsX()) {
+            System.out.println(players.get(0).getName() + " Ganhou!!");
             Menu.pressEnterToContinue(scan);
-            one.setWins();
+            players.get(0).setWins();
             board.initializer();
             return;
-          } else if (!two.getIsX()) {
-            System.out.println(two.getName() + " Ganhou!!");
-            two.setWins();
+          } else if (!players.get(1).getIsX()) {
+            System.out.println(players.get(1).getName() + " Ganhou!!");
+            players.get(1).setWins();
             Menu.pressEnterToContinue(scan);
             board.initializer();
             return;
@@ -313,41 +314,41 @@ public class Game {
     return true;
   }
 
-  public void oneBegins(Scanner scan, Player one, Player two) {
+  public void oneBegins(Scanner scan, ArrayList<Player> players) {
     Boolean returns = false;
-    verifier(one, two, scan);
-    Menu.scoreBoard(one, two);
+    verifier(players, scan);
+    Menu.scoreBoard(players);
     printBoard();
-    returns = !putMarking(scan, one);
+    returns = !putMarking(scan, players.get(0));
     if (returns)
       return;
 
     Menu.clearScreen();
 
-    verifier(one, two, scan);
-    Menu.scoreBoard(one, two);
+    verifier(players, scan);
+    Menu.scoreBoard(players);
     printBoard();
-    returns = !putMarking(scan, two);
+    returns = !putMarking(scan, players.get(1));
     if (returns)
       return;
     Menu.clearScreen();
   }
 
-  public void twoBegins(Scanner scan, Player one, Player two) {
+  public void twoBegins(Scanner scan, ArrayList<Player> players) {
     Boolean returns = false;
-    verifier(one, two, scan);
-    Menu.scoreBoard(one, two);
+    verifier(players, scan);
+    Menu.scoreBoard(players);
     printBoard();
-    returns = !putMarking(scan, two);
+    returns = !putMarking(scan, players.get(1));
     if (returns)
       return;
 
     Menu.clearScreen();
 
-    verifier(one, two, scan);
-    Menu.scoreBoard(one, two);
+    verifier(players, scan);
+    Menu.scoreBoard(players);
     printBoard();
-    returns = !putMarking(scan, one);
+    returns = !putMarking(scan, players.get(0));
     if (returns)
       return;
     Menu.clearScreen();

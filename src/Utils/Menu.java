@@ -1,5 +1,6 @@
 package Utils;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public interface Menu {
@@ -57,8 +58,8 @@ public interface Menu {
     pressEnterToContinue(scan);
   }
 
-  public static void scoreBoard(Player one, Player two) {
-    System.out.println(one.getName() + ": " + one.getPoints() + " | " + two.getName() + ": " + two.getPoints() + " | Empate: " + Game.getDraw());
+  public static void scoreBoard(ArrayList<Player> players) {
+    System.out.println(players.get(0).getName() + ": " + players.get(0).getPoints() + " | " + players.get(1).getName() + ": " + players.get(1).getPoints() + " | Empate: " + Game.getDraw());
     System.out.println();
   }
 

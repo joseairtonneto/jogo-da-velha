@@ -10,10 +10,11 @@ public class Player {
 
   public Player(Scanner scan) {
     System.out.println("Jogador 1 digite seu nome");
+    scan.nextLine();
     String name = scan.nextLine();
     System.out.println(name + " você quer ser o x?[s - sim / n - não]");
     String answer = scan.nextLine();
-    answer = answer.replaceAll("[^A-MO-RT-Za-mo-rt-z0-9 !@#$%^&*()_+={};':\"\\|,.<>/?¡-ÿ]", "");
+    answer = answer.replaceAll("[A-MO-RT-Za-mo-rt-z0-9 !@#$%^&*()_+={};':\"\\|,.<>/?¡-ÿ]", "");
     if (answer.equals("s"))
       this.isX = true;
     this.name = name;
