@@ -11,10 +11,14 @@ public class Board {
     int count = 1;
     for (int i = 0; i < 3; i++)
       for (int j = 0; j < 3; j++)
-        getTable()[i][j] = String.valueOf(count++);
+        setTable(String.valueOf(count++), i, j);
   }
 
   public String[][] getTable() {
     return table;
+  }
+
+  public static void setTable(String count, int i, int j) {
+    table[i][j] = count;
   }
 }

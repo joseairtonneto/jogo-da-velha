@@ -34,6 +34,8 @@ public class Game {
         twoBegins(scan, players);
       }
     }
+    Menu.clearScreen();
+    setEnd(false);
     begins();
     scan.close();
   }
@@ -52,8 +54,8 @@ public class Game {
 
   public void whoStarts(ArrayList<Player> players) {
     Random generator = new Random();
-    Boolean start = generator.nextBoolean();
-    if (start) {
+    int start = generator.nextInt(100);
+    if (start%2!=0) {
       players.get(0).setStarter();
     } else {
       players.get(1).setStarter();
@@ -91,6 +93,13 @@ public class Game {
   }
 
   public void verifier(ArrayList<Player> players, Scanner scan) {
+    if (allPlaced()) {
+      Game.draw++;
+      System.out.println("Empatou!!");
+      Menu.pressEnterToContinue(scan);
+      board.initializer();
+      return;
+    }
     int winnerIsX = 0;
     int winnerIsO = 0;
     // Lines
@@ -291,12 +300,6 @@ public class Game {
         }
       }
     }
-    if (allPlaced()) {
-      Game.draw++;
-      System.out.println("Empatou!!");
-      Menu.pressEnterToContinue(scan);
-      board.initializer();
-    }
   }
 
   public Boolean allPlaced() {
@@ -374,6 +377,7 @@ public class Game {
         return false;
       } else if (wannaGoOut) {
         Game.end = true;
+        board.initializer();
         return false;
       }
 
