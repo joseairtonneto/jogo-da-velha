@@ -370,7 +370,7 @@ public class Game {
       Boolean wannaGoOut = chosenPosition.equals("sair") || chosenPosition.equals("Sair")
           || chosenPosition.equals("SAIR");
 
-      Boolean chosenPositionIsANumber = chosenPosition.matches("[0-9]*");
+      Boolean chosenPositionIsANumber = chosenPosition.matches("[0-9]");
 
       if (wantToRestart) {
         board.initializer();
